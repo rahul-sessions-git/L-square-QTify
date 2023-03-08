@@ -13,8 +13,8 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 10, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  windowMs: (1 * 60 * 1000) / 2, // 1 minute
+  max: 50, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
   standardHeaders: false, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
