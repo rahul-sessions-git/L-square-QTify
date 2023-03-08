@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://qtify-backend-gye4ebhsbpfea8g9.z01.azurefd.net/songs")
+      .get("https://qtify-backend-gye4ebhsbpfea8g9.z01.azurefd.net/albums/new")
       .then((response) => {
         setData(response.data || []);
       });
@@ -18,7 +18,7 @@ function App() {
       <Navbar />
       {data.map((ele) => (
         <div key={ele.id}>
-          <img src={ele.image}></img>
+          <img src={ele.image} width={300}></img>
         </div>
       ))}
     </>

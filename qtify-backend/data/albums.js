@@ -70,9 +70,10 @@ function generateData(number) {
 
   albums.forEach((album) => {
     album["songs"] = [];
-    const randomIndex = randomInteger(0, songs.length - 1, usedSongsIndex);
-    usedSongsIndex.push(randomIndex);
-    album["songs"].push(songs[randomIndex]);
+    for (let i = 0; i < randomInteger(30, 100); i++) {
+      const randomIndex = randomInteger(0, songs.length - 1);
+      album["songs"].push(songs[randomIndex]);
+    }
   });
   return { albums, songs };
 }

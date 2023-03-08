@@ -77,7 +77,7 @@ const { albums, songs } = generateData(50);
 const albumIds = {};
 
 app.get("/albums/:type", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
+  res.setHeader("Cache-Control", "public, max-age=600");
   const { type } = req.params;
   if (type === "top" || type === "new") {
     res.json(sampleSize(albums, randomInteger(10, 18)));
@@ -87,7 +87,7 @@ app.get("/albums/:type", (req, res) => {
 });
 
 app.get("/album/:slug", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
+  res.setHeader("Cache-Control", "public, max-age=600");
   const { slug } = req.params;
   if (albumIds[slug]) {
     res.json(albumIds[slug]);
@@ -101,17 +101,17 @@ app.get("/album/:slug", (req, res) => {
 });
 
 app.get("/songs", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
+  res.setHeader("Cache-Control", "public, max-age=600");
   res.json(sampleSize(songs, randomInteger(40, 70)));
 });
 
 app.get("/genres", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
+  res.setHeader("Cache-Control", "public, max-age=600");
   res.json({ data: GENRES });
 });
 
 app.get("/faq", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=300");
+  res.setHeader("Cache-Control", "public, max-age=600");
   res.json({
     data: [
       {
