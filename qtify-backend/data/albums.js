@@ -1,18 +1,35 @@
 const crypto = require("crypto");
 const { faker } = require("@faker-js/faker");
-const { generateName, randomInteger, GENRES } = require("../helpers/helpers");
+const {
+  generateName,
+  randomInteger,
+  GENRES,
+  convertToSlug,
+} = require("../helpers/helpers");
+const { IMAGES } = require("./images");
 
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
 };
 
+const usedImageIndex = [];
+const usedSongsIndex = [];
+
+function getUniqueImage() {
+  const randomIndex = randomInteger(0, IMAGES.length - 1, usedImageIndex);
+  usedImageIndex.push(randomIndex);
+  return IMAGES[randomIndex].src.portrait;
+}
+
 function generateSingleAlbum() {
+  const title = generateName();
   return {
     id: crypto.randomUUID(),
-    title: generateName(),
+    title: title,
     description: faker.lorem.lines(),
     follows: randomInteger(1000, 15000),
-    image: faker.image.unsplash.technology(),
+    image: getUniqueImage(),
+    slug: convertToSlug(title),
   };
 }
 function generateAlbums(number) {
@@ -35,7 +52,7 @@ function generateSingleSong() {
     artists: artists,
     genre: GENRES.random(),
     likes: randomInteger(5000, 100000),
-    image: faker.image.unsplash.buildings(),
+    image: getUniqueImage(),
     durationInMs: randomInteger(60000, 24000),
   };
 }
@@ -49,18 +66,13 @@ function generateSongs(number) {
 
 function generateData(number) {
   const albums = generateAlbums(number);
-  const songs = generateSongs(5000);
+  const songs = generateSongs(500);
 
-  const usedSongs = {};
   albums.forEach((album) => {
     album["songs"] = [];
-    for (let i = 0; i < randomInteger(50, 500); i++) {
-      const songIndex = randomInteger(0, 5000);
-      if (!usedSongs[songIndex]) {
-        album["songs"].push(songs[songIndex]);
-        usedSongs[songIndex] = true;
-      }
-    }
+    const randomIndex = randomInteger(0, songs.length - 1, usedSongsIndex);
+    usedSongsIndex.push(randomIndex);
+    album["songs"].push(songs[randomIndex]);
   });
   return { albums, songs };
 }

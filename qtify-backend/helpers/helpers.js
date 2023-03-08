@@ -2869,8 +2869,17 @@ function generateName() {
   return name;
 }
 
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+// function randomInteger(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
+
+function randomInteger(min, max, exclude = []) {
+  let random;
+  while (!random) {
+    const x = Math.floor(Math.random() * (max - min + 1)) + min;
+    if (exclude.indexOf(x) === -1) random = x;
+  }
+  return random;
 }
 
 const GENRES = [
@@ -2880,4 +2889,10 @@ const GENRES = [
   { key: "blues", label: "Blues" },
 ];
 
-module.exports = { generateName, randomInteger, GENRES };
+function convertToSlug(Text) {
+  return Text.toLowerCase()
+    .replace(/[^\w ]+/g, "")
+    .replace(/ +/g, "-");
+}
+
+module.exports = { generateName, randomInteger, GENRES, convertToSlug };

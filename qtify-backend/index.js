@@ -74,8 +74,10 @@ app.use(limiter);
 // ---------------------- API ROUTES ------------------------
 
 const { albums, songs } = generateData(50);
+const albumIds = {};
 
 app.get("/albums/:type", (req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   const { type } = req.params;
   if (type === "top" || type === "new") {
     res.json(sampleSize(albums, randomInteger(10, 18)));
@@ -84,16 +86,59 @@ app.get("/albums/:type", (req, res) => {
   res.sendStatus(404);
 });
 
+app.get("/album/:slug", (req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
+  const { slug } = req.params;
+  if (albumIds[slug]) {
+    res.json(albumIds[slug]);
+    return;
+  } else {
+    const album = albums.find((el) => el.slug === slug);
+    albumIds[slug] = album;
+    res.json(album || {});
+    return;
+  }
+});
+
 app.get("/songs", (req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   res.json(sampleSize(songs, randomInteger(40, 70)));
 });
 
 app.get("/genres", (req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   res.json({ data: GENRES });
 });
 
 app.get("/faq", (req, res) => {
-  res.json({ question: "", answer: "" });
+  res.setHeader("Cache-Control", "public, max-age=300");
+  res.json({
+    data: [
+      {
+        question: "Is QTify free to use?",
+        answer: "Yes! It is 100% free, and has 0% ads!",
+      },
+      {
+        question: "Can I download and listen to songs offline?",
+        answer:
+          "Sorry, unfortunately we don't provide the service to download any songs.",
+      },
+      {
+        question: "I am an artist, can I have my songs uploaded on QTify?",
+        answer: "Yes, please reach out to us at letmesing@qtify.com",
+      },
+      {
+        question: "On what all devices can I access QTify?",
+        answer:
+          "You may access QTify on your laptop, desktop, tablet and smartphones.",
+      },
+      {
+        question: "How can I share my feedback?",
+        answer:
+          "On the top-right you will see button name 'Give Feedback'. Click on it and a form will appear on screen. Please fill that form and submit it, and your feedback will be shared with us.",
+      },
+    ],
+  });
 });
 
 app.listen(port, () => {
