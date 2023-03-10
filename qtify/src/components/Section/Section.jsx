@@ -29,18 +29,20 @@ export default function Section({ title, dataSource }) {
           {!carouselToggle ? "Collapse All" : "Show All"}
         </h4>
       </div>
-      {!carouselToggle ? (
-        <div className={styles.wrapper}>
-          {data.map((ele) => (
-            <Card data={ele} />
-          ))}
-        </div>
-      ) : (
-        <Carousel
-          data={data}
-          renderComponent={(data) => <Card data={data} />}
-        />
-      )}
+      <div>
+        {!carouselToggle ? (
+          <div className={styles.wrapper}>
+            {data.map((ele) => (
+              <Card data={ele} />
+            ))}
+          </div>
+        ) : (
+          <Carousel
+            data={data}
+            renderComponent={(data) => <Card data={data} />}
+          />
+        )}
+      </div>
     </>
   );
 }
