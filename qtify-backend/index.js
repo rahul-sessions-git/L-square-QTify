@@ -13,8 +13,8 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const limiter = rateLimit({
-  windowMs: (1 * 60 * 1000) / 2, // 1 minute
-  max: 50, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  windowMs: 10 * 60 * 1000, // 1 minute
+  max: 30, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
   standardHeaders: false, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
@@ -45,30 +45,7 @@ app.use(
   })
 );
 
-var whitelist = ["localhost"]; //white list consumers
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  },
-  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  credentials: true, //Credentials are cookies, authorization headers or TLS client certificates.
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "device-remember-token",
-    "Access-Control-Allow-Origin",
-    "Origin",
-    "Accept",
-  ],
-};
-app.use(cors(corsOptions)); //adding cors middleware to the express with above configurations
-
+app.use(cors()); //adding cors middleware to the express with above configurations
 app.use(limiter);
 
 // ---------------------- API ROUTES ------------------------
@@ -77,7 +54,7 @@ const { albums, songs } = generateData(50);
 const albumIds = {};
 
 app.get("/albums/:type", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=600");
+  res.setHeader("Cache-Control", "public, max-age=3600");
   const { type } = req.params;
   if (type === "top" || type === "new") {
     res.json(sampleSize(albums, randomInteger(10, 18)));
@@ -87,7 +64,7 @@ app.get("/albums/:type", (req, res) => {
 });
 
 app.get("/album/:slug", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=600");
+  res.setHeader("Cache-Control", "public, max-age=3600");
   const { slug } = req.params;
   if (albumIds[slug]) {
     res.json(albumIds[slug]);
@@ -101,17 +78,17 @@ app.get("/album/:slug", (req, res) => {
 });
 
 app.get("/songs", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=600");
+  res.setHeader("Cache-Control", "public, max-age=3600");
   res.json(sampleSize(songs, randomInteger(40, 70)));
 });
 
 app.get("/genres", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=600");
+  res.setHeader("Cache-Control", "public, max-age=3600");
   res.json({ data: GENRES });
 });
 
 app.get("/faq", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=600");
+  res.setHeader("Cache-Control", "public, max-age=3600");
   res.json({
     data: [
       {
