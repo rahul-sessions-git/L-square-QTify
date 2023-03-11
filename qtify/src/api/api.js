@@ -1,7 +1,6 @@
 import axios from "axios";
 
-export const BACKEND_ENDPOINT =
-  "https://qtify-backend-gye4ebhsbpfea8g9.z01.azurefd.net";
+export const BACKEND_ENDPOINT = "https://qtify-backend-labs.crio.do";
 
 export const fetchTopAlbums = async () => {
   try {
