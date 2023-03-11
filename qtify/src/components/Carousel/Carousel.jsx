@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 import { useSwiper } from "swiper/react";
@@ -7,9 +7,17 @@ import "swiper/css";
 import CarouselLeftNavigation from "./CarouselLeftNavigation/CarouselLeftNavigation";
 import CarouselRightNavigation from "./CarouselRightNavigation/CarouselRightNavigation";
 
-function Carousel({ data, renderComponent }) {
-  console.log(data);
+const Controls = ({ data }) => {
+  const swiper = useSwiper();
 
+  useEffect(() => {
+    swiper.slideTo(0);
+  }, [data]);
+
+  return <></>;
+};
+
+function Carousel({ data, renderComponent }) {
   return (
     <div className={styles.wrapper}>
       <Swiper
@@ -20,6 +28,7 @@ function Carousel({ data, renderComponent }) {
         spaceBetween={40}
         allowTouchMove={false}
       >
+        <Controls data={data} />
         <CarouselLeftNavigation />
         <CarouselRightNavigation />
         {data.map((ele) => (
