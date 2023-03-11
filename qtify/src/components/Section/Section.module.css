@@ -14,3 +14,11 @@
   cursor: pointer;
   color: var(--color-primary);
 }
+
+.cardsWrapper {
+  margin-top: 18px;
+}
+
+.filterWrapper {
+  margin-top: 15px;
+}
