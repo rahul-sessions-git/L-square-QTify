@@ -8,6 +8,7 @@ const cors = require("cors"); //import cors module
 const { generateName, randomInteger, GENRES } = require("./helpers/helpers");
 const { generateAlbums, generateData } = require("./data/albums");
 const { sampleSize } = require("lodash");
+// const chalk = require("chalk");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -108,6 +109,16 @@ app.get("/songs", (req, res) => {
 app.get("/genres", (req, res) => {
   res.setHeader("Cache-Control", "public, max-age=600");
   res.json({ data: GENRES });
+});
+
+app.get("/hello", (req, res) => {
+  const response = {
+    name: req.query.name,
+    email: req.query.email,
+  };
+  console.log("\x1b[36m", `${req.query.name} ${req.query.email}`, "\x1b[0m");
+  res.setHeader("Cache-Control", "no-cache");
+  res.json({ response, message: `Well done ${req.query.name}` });
 });
 
 app.get("/faq", (req, res) => {
