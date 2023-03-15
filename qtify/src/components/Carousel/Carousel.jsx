@@ -26,7 +26,7 @@ function Carousel({ data, renderComponent }) {
         modules={[Navigation]}
         slidesPerView={"auto"}
         spaceBetween={40}
-        allowTouchMove={false}
+        allowTouchMove
       >
         <Controls data={data} />
         <CarouselLeftNavigation />

@@ -7,7 +7,7 @@ import styles from "./Section.module.css";
 
 export default function Section({ title, dataSource, filterSource, type }) {
   const [cards, setCards] = useState([]);
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState([{ key: "all", label: "All" }]);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(0);
   const [carouselToggle, setCarouselToggle] = useState(true);
 
@@ -23,13 +23,16 @@ export default function Section({ title, dataSource, filterSource, type }) {
     if (filterSource) {
       filterSource().then((response) => {
         const { data } = response;
-        setFilters(data);
+        setFilters([...filters, ...data]);
       });
     }
   }, []);
 
+  console.log(filters);
+
+  const showFilters = filters.length > 1;
   const cardsToRender = cards.filter((card) =>
-    filters.length > 0
+    showFilters && selectedFilterIndex !== 0
       ? card.genre.key === filters[selectedFilterIndex].key
       : card
   );
@@ -42,7 +45,7 @@ export default function Section({ title, dataSource, filterSource, type }) {
           {!carouselToggle ? "Collapse All" : "Show All"}
         </h4>
       </div>
-      {filters.length > 0 && (
+      {showFilters && (
         <div className={styles.filterWrapper}>
           <Filters
             filters={filters}
