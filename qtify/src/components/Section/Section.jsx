@@ -28,8 +28,6 @@ export default function Section({ title, dataSource, filterSource, type }) {
     }
   }, []);
 
-  console.log(filters);
-
   const showFilters = filters.length > 1;
   const cardsToRender = cards.filter((card) =>
     showFilters && selectedFilterIndex !== 0
