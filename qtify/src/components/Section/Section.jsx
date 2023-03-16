@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Card from "../Card/Card";
@@ -29,7 +30,7 @@ export default function Section({ title, data, filterSource, type }) {
       ? card.genre.key === filters[selectedFilterIndex].key
       : card
   );
-
+  console.log(data);
   return (
     <div>
       <div className={styles.header}>
@@ -47,20 +48,24 @@ export default function Section({ title, data, filterSource, type }) {
           />
         </div>
       )}
-      <div className={styles.cardsWrapper}>
-        {!carouselToggle ? (
-          <div className={styles.wrapper}>
-            {cardsToRender.map((ele) => (
-              <Card data={ele} type={type} />
-            ))}
-          </div>
-        ) : (
-          <Carousel
-            data={cardsToRender}
-            renderComponent={(data) => <Card data={data} type={type} />}
-          />
-        )}
-      </div>
+      {data.length !== 0 ? (
+        <CircularProgress />
+      ) : (
+        <div className={styles.cardsWrapper}>
+          {!carouselToggle ? (
+            <div className={styles.wrapper}>
+              {cardsToRender.map((ele) => (
+                <Card data={ele} type={type} />
+              ))}
+            </div>
+          ) : (
+            <Carousel
+              data={cardsToRender}
+              renderComponent={(data) => <Card data={data} type={type} />}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
