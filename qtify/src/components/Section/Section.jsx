@@ -48,7 +48,7 @@ export default function Section({ title, data, filterSource, type }) {
           />
         </div>
       )}
-      {data.length !== 0 ? (
+      {data.length === 0 ? (
         <CircularProgress />
       ) : (
         <div className={styles.cardsWrapper}>

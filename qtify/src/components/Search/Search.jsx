@@ -5,6 +5,7 @@ import useAutocomplete from "@mui/base/useAutocomplete";
 import { styled } from "@mui/system";
 import { truncate } from "../../helpers/helpers";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "@mui/material";
 
 const Listbox = styled("ul")(({ theme }) => ({
   width: "100%",
@@ -97,7 +98,8 @@ function Search({ searchData, placeholder }) {
               >
                 <div>
                   <p className={styles.albumTitle}>{option.title}</p>
-                  <p className={styles.albumArtists} title={artists.join(", ")}>
+
+                  <p className={styles.albumArtists}>
                     {truncate(artists.join(", "), 40)}
                   </p>
                 </div>

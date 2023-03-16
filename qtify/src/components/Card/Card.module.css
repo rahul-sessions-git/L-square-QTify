@@ -39,3 +39,8 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+
+.chip {
+  background-color: var(--color-black);
+  color: white;
+}
