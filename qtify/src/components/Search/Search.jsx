@@ -35,7 +35,7 @@ const Listbox = styled("ul")(({ theme }) => ({
   },
 }));
 
-function Search({ placeholder }) {
+function Search({ searchData, placeholder }) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -46,7 +46,7 @@ function Search({ placeholder }) {
     groupedOptions,
   } = useAutocomplete({
     id: "use-autocomplete-demo",
-    options: [],
+    options: searchData || [],
     getOptionLabel: (option) => option.title,
   });
 

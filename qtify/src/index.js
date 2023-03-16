@@ -1,12 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
+import HomePage from "./pages/HomePage/HomePage";
 import "./index.css";
 import AlbumId from "./pages/albumId/AlbumId";
 
@@ -14,10 +10,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/album/:albumId",
-    element: <AlbumId />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/album/:albumId",
+        element: <AlbumId />,
+      },
+    ],
   },
 ]);
 

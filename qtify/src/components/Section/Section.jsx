@@ -5,8 +5,7 @@ import Carousel from "../Carousel/Carousel";
 import Filters from "../Filters/Filters";
 import styles from "./Section.module.css";
 
-export default function Section({ title, dataSource, filterSource, type }) {
-  const [cards, setCards] = useState([]);
+export default function Section({ title, data, filterSource, type }) {
   const [filters, setFilters] = useState([{ key: "all", label: "All" }]);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(0);
   const [carouselToggle, setCarouselToggle] = useState(true);
@@ -16,11 +15,6 @@ export default function Section({ title, dataSource, filterSource, type }) {
   };
 
   useEffect(() => {
-    dataSource().then((response) => {
-      setCards(response);
-      localStorage.setItem("albums", JSON.stringify(response));
-    });
-
     if (filterSource) {
       filterSource().then((response) => {
         const { data } = response;
@@ -30,7 +24,7 @@ export default function Section({ title, dataSource, filterSource, type }) {
   }, []);
 
   const showFilters = filters.length > 1;
-  const cardsToRender = cards.filter((card) =>
+  const cardsToRender = data.filter((card) =>
     showFilters && selectedFilterIndex !== 0
       ? card.genre.key === filters[selectedFilterIndex].key
       : card
