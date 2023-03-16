@@ -18,6 +18,7 @@ export default function Section({ title, dataSource, filterSource, type }) {
   useEffect(() => {
     dataSource().then((response) => {
       setCards(response);
+      localStorage.setItem("albums", JSON.stringify(response));
     });
 
     if (filterSource) {
