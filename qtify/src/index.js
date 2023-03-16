@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import HomePage from "./pages/HomePage/HomePage";
 import "./index.css";
-import AlbumId from "./pages/albumId/AlbumId";
+import AlbumPage from "./pages/AlbumPage/AlbumPage";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/album/:albumId",
-        element: <AlbumId />,
+        element: <AlbumPage />,
       },
     ],
   },
