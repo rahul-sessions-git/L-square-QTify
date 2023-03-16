@@ -53,11 +53,19 @@ app.use(limiter);
 const { albums, songs } = generateData(50);
 const albumIds = {};
 
+const randomAlbumEnd = randomInteger(10, 18);
+const topAlbums = albums.slice(0, randomAlbumEnd);
+const newAlbums = albums.slice(randomAlbumEnd + 1, randomInteger(10, 18));
+
 app.get("/albums/:type", (req, res) => {
   res.setHeader("Cache-Control", "public, max-age=600");
   const { type } = req.params;
-  if (type === "top" || type === "new") {
-    res.json(sampleSize(albums, randomInteger(10, 18)));
+  if (type === "top") {
+    res.json(topAlbums);
+    return;
+  }
+  if (type === "new") {
+    res.json(newAlbums);
     return;
   }
   res.sendStatus(404);
